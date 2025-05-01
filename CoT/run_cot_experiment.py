@@ -1,4 +1,5 @@
 from transformers import pipeline
+from datasets import load_dataset
 
 # 문제 정의
 questions = [
@@ -32,6 +33,26 @@ def run():
         output = generator(prompt, max_new_tokens=50)[0]["generated_text"]
         print(f"[CoT-{i+1}]\n{output}\n")
 
+def run_gsm8k(generator, sample_size=5):
+    dataset = load_dataset("gsm8k", "main", split=f"test[:{sample_size}]")
+    print(f"\n[GSM8K 실험 - 상위 {sample_size}개 문제 실행]")
+
+    for i, item in enumerate(dataset):
+        question = item["question"].strip()
+        answer = item["answer"].strip().split("####")[-1].strip()
+
+        standard_prompt = f"Q: {question}\nA:"
+        standard_output = generator(standard_prompt, max_new_tokens=50)[0]["generated_text"]
+
+        cot_prompt = (f"Q: {question}\nA: Let's think step by step.")
+        cot_output = generator(cot_prompt, max_new_tokens=50)[0]["generated_text"]
+
+        print(f"\n[{i + 1}] 질문: {question}")
+        print(f"Standard Answer:\n{standard_output}")
+        print(f"CoT Answer:\n{cot_output}")
+        print(f"Gold Answer: {answer}")
+
 # main 진입점
 if __name__ == "__main__":
     run()
+    run_gsm8k(load_model(), sample_size=5)
