@@ -1,7 +1,6 @@
 from transformers import pipeline
 from datasets import load_dataset
 
-# 문제 정의
 questions = [
     "If there are 5 apples and you eat 2, how many are left?",
     "Sam went to the zoo and saw a lion, a tiger, and a bear. How many animals did he see?"
@@ -13,13 +12,11 @@ cot_prompts = [
     "Q: Sam went to the zoo and saw a lion, a tiger, and a bear. How many animals did he see?\nA: Sam saw a lion, a tiger, and a bear. That's 3 animals. So the answer is 3."
 ]
 
-# 모델 불러오기
 def load_model():
     print("모델 로딩 중... (flan-t5-base)")
     generator = pipeline("text2text-generation", model="google/flan-t5-base")
     return generator
 
-# 실행 함수
 def run():
     generator = load_model()
 
@@ -52,7 +49,6 @@ def run_gsm8k(generator, sample_size=5):
         print(f"CoT Answer:\n{cot_output}")
         print(f"Gold Answer: {answer}")
 
-# main 진입점
 if __name__ == "__main__":
     run()
     run_gsm8k(load_model(), sample_size=5)
