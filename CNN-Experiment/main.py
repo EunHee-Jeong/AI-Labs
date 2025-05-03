@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--train', action='store_true', help='Train the model')
     parser.add_argument('--eval', action='store_true', help='Evaluate the model')
-    parser.add_argument('batch_size', type=int, default=64)
+    parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=3)
     parser.add_argument('--lr', type=float, default=0.001)
 

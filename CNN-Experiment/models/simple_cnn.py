@@ -13,10 +13,10 @@ class SimpleCNN(nn.Module):
         self.fc1 = nn.Linear(32 * 7 * 7, 128)
         self.fc2 = nn.Linear(128, 10)
 
-        def forward(self, x):
-            x = self.pool(F.relu(self.conv1(x)))
-            x = self.pool(F.relu(self.conv2(x)))
-            x = x.view(-1, 32 * 7 * 7) # Flatten
-            x = F.relu(self.fc1(x))
-            x = self.fc2(x)
-            return x
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 32 * 7 * 7)  # Flatten
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
