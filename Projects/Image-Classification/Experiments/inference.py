@@ -29,7 +29,7 @@ CFG = {
 
 # Device 설정
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"✅ Using device: {device}")
+print(f"Using device: {device}")
 
 # 경로
 # TODO:- 수정하기

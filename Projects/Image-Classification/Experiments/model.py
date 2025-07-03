@@ -9,7 +9,7 @@ class BaseModel(nn.Module):
         try:
             weights = get_model_weights(model_name).DEFAULT
         except ValueError:
-            raise ValueError(f"❌ '{model_name}' is not a valid torchvision model name.")
+            raise ValueError(f"유효하지 않은 모델명 ({model_name})")
 
         self.backbone = get_model(model_name, weights=weights)
 
@@ -27,7 +27,7 @@ class BaseModel(nn.Module):
             last_layer = self.backbone.classifier[-1]
             return last_layer.in_features if hasattr(last_layer, 'in_features') else last_layer.in_channels
         else:
-            raise NotImplementedError("❌ Unknown model structure.")
+            raise NotImplementedError("모델 구조 오류")
 
     def _remove_classifier(self, model_name):
         if hasattr(self.backbone, 'fc'):
@@ -35,7 +35,7 @@ class BaseModel(nn.Module):
         elif hasattr(self.backbone, 'classifier'):
             self.backbone.classifier = nn.Identity()
         else:
-            raise NotImplementedError("❌ Unknown model structure.")
+            raise NotImplementedError("모델 구조 오류")
 
     def forward(self, x):
         x = self.backbone(x)
