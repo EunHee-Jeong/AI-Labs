@@ -3,7 +3,8 @@ import random
 from nltk.tokenize import word_tokenize
 from collections import defaultdict, deque
 
-
+# 2차 Markov-Chain을 기반으로 문장을 자동 생성하는 간단한 text 생성기
+# 핵심: 단어쌍의 연쇄 확률 구조를 이용해 문장 생성
 class MarkovChain:
 	def __init__(self):
 		self.lookup_dict = defaultdict(list) # markov-chain의 핵심 구조 (예: { "to": ["be", "go"], "be": ["or", "gone"], ... })
@@ -64,10 +65,10 @@ class MarkovChain:
 		return " ".join(output) # 이어 붙이기
 
 if __name__ == "__main__":
-	with open("/Users/eunie/nltk_data/corpora/gutenberg/shakespeare-hamlet.txt", "r", encoding="utf-8") as f:
+	with open("/Users/eunie/nltk_data/corpora/maroon.txt", "r", encoding="utf-8") as f:
 		text = f.read()
 	HMM = MarkovChain()
-	HMM.add_document(text) # hamlet 전체 대사를 학습
+	HMM.add_document(text) # maroon 전체 가사를 학습
 
 	print(HMM.generate_text(max_length=25)) # markov-chain을 이용해 길이 25짜리 문장을 생성
 
