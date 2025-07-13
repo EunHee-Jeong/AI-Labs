@@ -83,7 +83,7 @@ def compute_cost(y, yhat, batch_size):
 def back_prop(x, yhat, y, h, W1, W2, b1, b2, batch_size):
 	"""
 	:param x: context를 위한 평균 one-hot 벡터
-	:param yhat: 예측갑(y의 추정치)
+	:param yhat: 예측값(y의 추정치)
 	:param y: 목표 벡터
 	:param h: 은닉 벡터
 	:param W1, W2, b1, b2: 가중치들과 편향들
@@ -145,3 +145,26 @@ V = len(word2Ind)
 num_iters = 150
 print("Call gradient_descent")
 W1, W2, b1, b2 = gradient_descent(data, word2Ind, N, V, num_iters)
+
+# 임베딩 시각화
+words = [
+	"king",
+	"queen",
+	"lord",
+	"man",
+	"woman",
+	"prince",
+	"ophelia",
+	"rich",
+	"happy",
+]
+embs = (W1.T + W2) / 2.0
+idx = [word2Ind[word] for word in words]
+X = embs[idx, :]
+print(X.shape, idx)
+
+result = compute_pca(X, 2)
+pyplot.scatter(result[:, 0], result[:, 1])
+for i, word in enumerate(words):
+	pyplot.annotate(word, xy=(result[i, 0], result[i, 1]))
+pyplot.show()

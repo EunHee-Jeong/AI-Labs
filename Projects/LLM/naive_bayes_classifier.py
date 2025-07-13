@@ -74,7 +74,7 @@ def train_naive_bayes(freqs, train_x, train_y):
 
 	D_neg = D - D_pos # 부정적 문서 개수
 
-	logprior = np.log(D_pos) - np.log(D_neg) # 로그 사전확률 계싼
+	logprior = np.log(D_pos) - np.log(D_neg) # 로그 사전확률 계산
 
 	for word in vocab: # 어휘의 각 단어에 대해
 		freq_pos = lookup(freqs, word, 1)
