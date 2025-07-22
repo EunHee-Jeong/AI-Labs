@@ -76,3 +76,34 @@ orders_df = pd.DataFrame(orders).T
 print(orders_df)
 
 orders_df.to_csv('orders.csv', index=False)
+
+import sqlite3
+
+conn = sqlite3.connect("card_synthetic_data.db")
+
+customer_df.to_sql("customers", conn, if_exists="replace", index=False)
+credit_cards_df.to_sql("credit_cards", conn, if_exists="replace", index=False)
+orders_df.to_sql("orders", conn, if_exists="replace", index=False)
+
+query1 = "SELECT COUNT(*) AS customer_count FROM customers"
+print(pd.read_sql_query(query1, conn))
+
+query2 = """
+SELECT type, COUNT(*) AS count
+FROM credit_cards
+GROUP BY type
+ORDER BY count DESC
+"""
+print(pd.read_sql_query(query2, conn))
+
+query3 = """
+SELECT cust_id, COUNT(*) as order_count
+FROM orders
+GROUP BY cust_id
+ORDER BY order_count DESC
+LIMIT 10
+"""
+print(pd.read_sql_query(query3, conn))
+
+query4 = "SELECT SUM(cost) as total_revenue FROM orders"
+print(pd.read_sql_query(query4, conn))
