@@ -73,8 +73,7 @@ def lossFunc(inputs, targets, hprev):
 
 		# 1. 출력층
 		dy[targets[t]] -= 1  # backpropagation (Softmax + CrossEntropy 미분: dy = p_t - y_{one-hot})
-		# TODO: - 여기서부터는 논문 읽고 나서 다시 보기.
-		dWhy += dy @ hs[t].T  # 은닉층→출력층 가중치 기울기 누적
+		dWhy += dy @ hs[t].T  # 은닉층 -> 출력층으로 갈 때의 가중치 기울기 누적
 		dby += dy
 
 		# 2. 은닉층
